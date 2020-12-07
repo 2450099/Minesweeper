@@ -31,6 +31,8 @@ class Game
     int invWeight = 0; 
     // used to check if you can pick up an item
     int tempWeight = 0;
+    // The max weight the player can carry
+    final int MAX_CARRY_WEIGHT = 50;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room outside, lab, store, gym, office, parking;   
@@ -220,7 +222,7 @@ class Game
       //the code within the if statement is to ensure the game doesn't crash or act oddly if you input something that isn't an item in the room
       if (currentRoom.getItems().indexOf(item) > -1 && currentRoom.getItems().substring(currentRoom.getItems().indexOf(item) - 1, currentRoom.getItems().indexOf(item)).equals(" ") && currentRoom.getItems().substring(currentRoom.getItems().indexOf(item) + item.length(), currentRoom.getItems().indexOf(item) + item.length() + 1).equals(" ")) {
         tempWeight = Integer.parseInt(item.substring(item.length()-2));
-        if (invWeight + tempWeight < 50) {
+        if (invWeight + tempWeight < MAX_CARRY_WEIGHT) {
           tempItem = currentRoom.getItems();
           tempItem = tempItem.substring(0,tempItem.indexOf(item)) + tempItem.substring(tempItem.indexOf(item)+item.length());
           currentRoom.setItems(tempItem);
