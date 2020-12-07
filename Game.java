@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -150,6 +150,8 @@ class Game
           dropItem(command);
         } else if (commandWord.equals("exits")) {
           System.out.println(currentRoom);
+        } else if (commandWord.equals("observe")) {
+          printObservation();
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -273,6 +275,18 @@ class Game
         System.out.println("There are no items in this room!");
       } else {
         System.out.println(currentRoom.getItems());
+      }
+    }
+    /**
+    *this provides information about your surroundings
+    */
+    public void printObservation() {
+      if (currentRoom.equals(outside)) {
+        System.out.println("You see the vine covered High School, as you stand on a grass lawn.  You are surrounded by some magical bubble that makes you go to weird places when you use the go command...");
+      } else if (currentRoom.equals(parking)) {
+        System.out.println("You get a car, you get a car, and YOUUUUU get a car!");
+      } else {
+        System.out.println("You don't see anything interesting...");
       }
     }
 }
