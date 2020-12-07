@@ -27,6 +27,10 @@ class Game
     private boolean finished;
     // used to get rid of an item in a room
     String tempItem = "";
+    //The weight of all things the player is holding
+    int invWeight = 0; 
+    // used to check if you can pick up an item
+    int tempWeight = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room outside, lab, store, gym, office, parking;   
@@ -73,12 +77,13 @@ class Game
         // initialise room exits
         // room.setExits(N,E,S,w)
         outside.setExits(parking, lab, gym, store);
-        outside.setItems(" dog ");
+        outside.setItems(" dog15 ");
         lab.setExits(null, null, null, outside);
         store.setExits(null, outside, null, null);
-        store.setItems(" money bottle ");
+        store.setItems(" money01 bottle02 ");
         gym.setExits(outside, office, null, null);
         office.setExits(null, null, null, gym);
+        office.setItems(" dumbell25 stapler16 ");
         parking.setExits(null,null,outside,null);
 
         currentRoom = outside;  // start game outside
@@ -212,11 +217,17 @@ class Game
       String item = command.getSecondWord();
       //the code within the if statement is to ensure the game doesn't crash or act oddly if you input something that isn't an item in the room
       if (currentRoom.getItems().indexOf(item) > -1 && currentRoom.getItems().substring(currentRoom.getItems().indexOf(item) - 1, currentRoom.getItems().indexOf(item)).equals(" ") && currentRoom.getItems().substring(currentRoom.getItems().indexOf(item) + item.length(), currentRoom.getItems().indexOf(item) + item.length() + 1).equals(" ")) {
-        tempItem = currentRoom.getItems();
-        tempItem = tempItem.substring(0,tempItem.indexOf(item)) + tempItem.substring(tempItem.indexOf(item)+item.length());
-        currentRoom.setItems(tempItem);
-        inventory += item + " ";
-        System.out.println("Picked up " + item);
+        tempWeight = Integer.parseInt(item.substring(item.length()-2));
+        if (invWeight + tempWeight < 50) {
+          tempItem = currentRoom.getItems();
+          tempItem = tempItem.substring(0,tempItem.indexOf(item)) + tempItem.substring(tempItem.indexOf(item)+item.length());
+          currentRoom.setItems(tempItem);
+          inventory += item + " ";
+          invWeight += tempWeight;
+          System.out.println("Picked up " + item);
+        } else {
+          System.out.println("You have too much in your inventory to pick that up!");
+        }
       } else {
         System.out.println("That is not an item");
       }
@@ -246,6 +257,8 @@ class Game
         tempItem = inventory;
         tempItem = tempItem.substring(0,tempItem.indexOf(item)) + tempItem.substring(tempItem.indexOf(item)+item.length());
         inventory = tempItem;
+        tempWeight = Integer.parseInt(item.substring(item.length()-2));
+        invWeight -= tempWeight;
         currentRoom.setItems(currentRoom.getItems() + item + " ");
         System.out.println("Dropped " + item);
       } else {
