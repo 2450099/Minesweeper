@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -37,7 +37,7 @@ class Game
     int progress = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
-    private Room spawn, chess, wrench, store, gym, office, parking;   
+    private Room spawn, chess, wrench, water_riddle, water, ignorance_riddle, ignorance, wind_riddle, wind, victor_riddle, trinity, victory;
 
     // This is the parser that deals with input.  You should not have to touch this.
     private Parser parser;
@@ -87,9 +87,22 @@ class Game
         // initialise room exits
         // room.setExits(N,E,S,w)
         spawn.setExits(chess, null, wrench, null);
+        spawn.setItems(" map08 ");
         chess.setExits(null, null, spawn, null);
         wrench.setExits(spawn, null, null, null);
-        
+        wrench.setItems(" wrench12 ");
+        water_riddle.setExits(null, null, null, chess);
+        water.setExits(null, null, null, water_riddle);
+        water.setItems(" water_stone12 ");
+        ignorance_riddle.setExits(water_riddle, null, null, null);
+        ignorance.setExits(ignorance_riddle, null, null, null);
+        ignorance.setItems(" ignorance_stone12 ");
+        wind_riddle.setExits(null, null, chess, null);
+        wind.setExits(null, null, null, wind_riddle);
+        wind.setItems(" wind_stone12 ");
+        victor_riddle.setExits(null, chess, null, null);
+        trinity.setExits(null, victor_riddle, null, null);
+        victory.setExits(null, null, trinity, null);
 
         currentRoom = spawn;  // start game in spawn
     }
@@ -161,6 +174,8 @@ class Game
           map();
         } else if (commandWord.equals("talk")) {
           talk();
+        } else if (commandWord.equals("debug")) {
+          progress++;
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -291,7 +306,7 @@ class Game
     public void printObservation() {
       if (currentRoom.equals(wrench)) {
         System.out.println("You see the vine covered High School, as you stand on a grass lawn.  You are surrounded by some magical bubble that makes you go to weird places when you use the go command...");
-      } else if (currentRoom.equals(parking)) {
+      } else if (currentRoom.equals(spawn)) {
         System.out.println("You get a car, you get a car, and YOUUUUU get a car!");
       } else {
         System.out.println("You don't see anything interesting...");
@@ -300,7 +315,17 @@ class Game
     //brings up map (if player has a map)
     public void map() {
       if (inventory.indexOf("map08") > -1) {
-        System.out.println("Woah, you have a map, but you're illiterate!");
+        if (progress == 0) {
+          image = new Image("images/map1.png");
+        } else if (progress == 1) {
+          image = new Image("images/map2.png");
+        } else if (progress == 2) {
+          image = new Image("images/map3.png");
+        } else if (progress == 3) {
+          image = new Image("images/map4.png");
+        } else if (progress == 4) {
+          image = new Image("images/map5.png");
+        }
       } else {
         System.out.println("You don't have that map!");
       }
