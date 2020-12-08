@@ -35,6 +35,8 @@ class Game
     final int MAX_CARRY_WEIGHT = 50;
     // Used to keep track of the player's progress
     int progress = 0;
+    //Used to keep track of Bob's questions
+    int bobQuestion = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room spawn, chess, wrench, water_riddle, water, ignorance_riddle, ignorance, wind_riddle, wind, victor_riddle, trinity, victory;
@@ -132,7 +134,7 @@ class Game
         System.out.println();
         System.out.println("The World has fallen into an age of darkness and despair.");
         System.out.println("Only you, the randomly chosen one, can restore balance to the world");
-        System.out.println("Find the 4 essentials of life to bring the world back.");
+        System.out.println("Find the 3 essentials of life to bring the world back.");
         System.out.println();
         System.out.println(currentRoom);
     }
@@ -356,14 +358,35 @@ class Game
     public void talk() {
       if (currentRoom.equals(chess)) {
         if (inventory.indexOf("map08") > -1) {
-          System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Lemme have a look at it.  There ya go.");
-          if (progress == 0) progress = 1;
-          chess.setExits(null, water_riddle, spawn, null);
-          System.out.println("**Your map has been upgraded**");
-          System.out.println("**A door has opened!**");
-          System.out.println("Bob: Come back to me when you find one of the four.");
-        } else {
-          System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
+          if (progress == 0 || progress == 1) {
+            System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Lemme have a look at it.  There ya go.");
+            if (progress == 0) progress = 1;
+            chess.setExits(null, water_riddle, spawn, null);
+            System.out.println("**Your map has been upgraded**");
+            System.out.println("**A door has opened!**");
+            System.out.println("Bob: Come back to me when you find one of the three.");
+          } else {
+            System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
+          }
+        } else if (progress == 2) {
+          if (inventory.indexOf(water_stone12) > -1) {
+            System.out.println("Bob: Ah, I see you have the water stone.\nGo try to another of the three will you?")
+          } else {
+            System.out.println("Bob: Hm, you don't have the water stone?  It should have been in the room after the riddle...\nBob: Go get it.");
+          }
+        } else if (progress == 3) {
+          if (inventory.indexOf(wind_stone12) > -1) {
+            System.out.println("Bob: You got the wind stone!  I never could figure out that dumb riddle.\nGo get the last of the three, will you?");
+          } else {
+            System.out.println("Bob: Huh, why don't you have the wind stone?  It should have been in the room after the riddle... \nBob: Go get it for me.");
+          }
+        } else if (progress == 4) {
+          if (inventory.indexOf(water_stone12) > -1 && inventory.indexOf(wind_stone12) > -1 && inventory.indexOf(ignorance_stone12) > -1) {
+            System.out.println("Bob: Hey, you got all the stones!\nBob: Now, I'm very proud of you for succeeding where I've failed all these years.\nBob: To think I've wasted all this time, just to have somebody show up and hand me the stones!\nBob: Oh, don't look so distressed, anyone would have been as easy to trick as you.\nBob: Alright, how about a game.  I give you three questions, and if you answer them all, you can pass.\nBob: Oh, right, the door's been right behind me this whole time, I just needed the stones. \nBob: Alright, first question: Is the world really worth saving?");
+            bobQuestion = 1;
+          } else {
+            System.out.println("Bob: Why don't you have all the stones?\nBob: Bring them here and I'll tell you how to finish.  Hurry up.");
+          }
         }
       } else {
         System.out.println("Your voice echoes off empty walls");
@@ -397,7 +420,7 @@ class Game
             if (progress == 3) {
               progress++;
               ignorance_riddle.setExits(water_riddle, null, ignorance, null);
-              chess.setExits(wind_riddle, water_riddle, spawn, victor_riddle);
+              chess.setExits(wind_riddle, water_riddle, spawn, null);
               System.out.println("A door has opened!");
             }
         } else if (currentRoom.equals(victor_riddle) && answer.equals("nike")) {
@@ -406,6 +429,38 @@ class Game
               victor_riddle.setExits(null, chess, null, trinity);
               System.out.println("A door has opened!");
             }
+        } else if (currentRoom.equals(chess) && bobQuestion > 0) {
+          if (bobQuestion == 1) {
+            if (answer.equals("yes") || answer.equals("y")) {
+              bobQuestion == 2;
+              System.out.println("Bob: HAH, wrong, but I suppose that's opinion.\nBob: Here's your second question: What is the best word in the english  dictionary?");
+            } else if (answer.equals("no") || answer.equals("n")) {
+              System.out.println("Bob: Correct, but I suppose there's no reason for me to give you the stones then...");
+              System.out.println("**Old Bob takes you out**")
+              finished = true;
+            } else {
+              System.out.println("Bob: What kind of answer is that?");
+              System.out.println("**Old Bob takes you out**");
+              finished = true;
+            }
+          } else if (bobQuestion == 2) {
+            if (!answer.equals("rhododendron")) {
+              System.out.println("Bob: Wrong, it's rhododendron.  But, I suppose, that's opinion too, isn't it.  Fine, you pass.\nBob: Last question: Are there ancient pyramids in Mexico?");
+              bobQuestion = 3;
+            } else {
+              System.out.println("Bob: YES\nBob:Alright, last question: Are there ancient pyramids in Mexico?")
+              bobQuestion = 3;
+            }
+          } else if (bobQuestion == 3) {
+            if (answer.equals("y") || answer.equals("yes")) {
+              System.out.println("Bob: Dang kid who doesn't know what's good for themself.\nBob: Fine, pass, see if I care.");
+              chess.setExits(wind_riddle, water_riddle, spawn, victor_riddle);
+            } else {
+              System.out.println("Bob: HAHA, got you with that one, didn't I.\nBob: Thanks for the stones!");
+              System.out.println("**Old Bob takes you out**");
+              finished = true;
+            }
+          }
         } else {
           System.out.println("You are wrong, or there is no riddle to answer.");
         }
