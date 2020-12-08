@@ -80,10 +80,10 @@ class Game
         // initialise room exits
         // room.setExits(N,E,S,w)
         spawn.setExits(chess, null, wrench, null);
-        spawn.setItems(" dog15 map08 ");
+        spawn.setItems(" dog15 spawnmap08 ");
         chess.setExits(null, null, null, null);
         wrench.setExits(spawn, null, null, null);
-        wrench.setItems(" wrench12 ")
+        wrench.setItems(" wrench12 ");
         store.setExits(null, null, null, null);
         store.setItems(" money01 bottle02 ");
         gym.setExits(null, office, null, null);
@@ -159,6 +159,8 @@ class Game
           printObservation();
         } else if (commandWord.equals("map")) {
           map();
+        } else if (commandWord.equals("talk")) {
+          talk();
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -296,11 +298,24 @@ class Game
         System.out.println("You don't see anything interesting...");
       }
     }
+    //brings up map (assuming player has a map)
     public void map() {
-      if (inventory.indexOf("map08") > -1) {
-        Image map = new Image ("images/ME.jpg");
+      if (!command.hasSecondWord()) {
+        System.out.println("What map do you want to look at?");
+        return;
+      }
+      String mapSpecific = command.getSecondWord();
+      if (mapSpecific.equals("spawnmap08")) {
+        System.out.println("Woah, it's a spawn map");
       } else {
-        System.out.println("You don't have the map!");
+        System.out.println("You don't have that map!");
+      }
+    }
+    public void talk() {
+      if (currentRoom.equals("chess")) {
+        System.out.println("Bob: Ah look, a youngin' come to visit me.  Hullo there, laddio.\nBob: Tell me, what's a young lad like you doing here with an ol' man like myself? \nBob: Off to save the world you say?  Sounds like you're going to need a hand for something like that. \nBob: I'll tell you what.  If you bring be back the 4 cornerstones of life: Water, Air, Ignorance, and Pride, we'll see what we can do.");
+      } else {
+        System.out.println("Your voice echoes off empty walls");
       }
     }
 }
