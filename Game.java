@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug answer";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -176,6 +176,8 @@ class Game
           talk();
         } else if (commandWord.equals("debug")) {
           progress++;
+        } else if (commandWord.equals("answer")) {
+          answer(command);
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -305,9 +307,29 @@ class Game
     */
     public void printObservation() {
       if (currentRoom.equals(wrench)) {
-        System.out.println("You see the vine covered High School, as you stand on a grass lawn.  You are surrounded by some magical bubble that makes you go to weird places when you use the go command...");
+        System.out.println("You are in a room with white walls and harsh flourescent lights.\nThere is a reflective tiled floor beneath your feet, and something lying on the floor.\nThere is a sign on the far wall that reads: \"Made by Connor K\"");
       } else if (currentRoom.equals(spawn)) {
-        System.out.println("You get a car, you get a car, and YOUUUUU get a car!");
+        System.out.println("You are in a dark room with a vaulted ceiling and a rough stone floor.\nThere is something on the far wall.");
+      } else if (currentRoom.equals(chess)) {
+        System.out.println("There are a few chess boards scattered throughout the room on small tables.\nThere is a man sitting at one of these tables, examining a board.");
+      } else if (currentRoom.equals(water_riddle)) {
+        System.out.println("You are in a large lavishly furnished room with a fountain in the middle.\nThere is graffiti on the far wall.  It reads \"When the heavens cry, millions of us will come.  What am I?\"");
+      } else if (currentRoom.equals(water)) {
+        System.out.println("A large room with white marble columns reaching up to the ceiling.\nIn the middle is a pedestal with something on it.");
+      } else if (currentRoom.equals(ignorance_riddle)) {
+        System.out.println("You find yourself looking at an 18th century style sitting room.\nOn one wall is a portrait of bananas.\nOn the other is red writing that reads \"The greatest folly of man is knowledge.  Ignorance is ...\"");
+      } else if (currentRoom.equals(ignorance)) {
+        System.out.println("You are in a pitch black room.\nNothing is visible except a pedestal in the middle, with an item resting atop it.");
+      } else if (currentRoom.equals(wind_riddle)) {
+        System.out.println("The walls are covered in a pattern of white and grey swirls, while the ceiling is a beautiful depiction of a storm.\n Some of the clouds make letters, and they read \"I move through the alphabet, stealing names.\nI am a mixture of wind, rain, and clouds.\nI cause destruction wherever I go.\"");
+      } else if (currentRoom.equals(wind)) {
+        System.out.println("Despite no apparent doors or windows aside from the one you used, you feel a slight breeze.\nThere is a pedestal in the middle of the room with something resting on it.");
+      } else if (currentRoom.equals(victor_riddle)) {
+        System.out.println("You are in a room covered in paintings.  There are depictions of battles, chariot races, and coloseums. \nOn one such painting, there is a caption that reads \"Once I was a greek goddess, now I am a shoe.  Swoosh.\"");
+      } else if (currentRoom.equals(trinity)) {
+        System.out.println("You are in a room with 3 glowing pedestals of red, green, and blue.\nConnecting them are glowing lines on the floor.\nThe pedestals appear to have an indent, as if something should be placed on them...");
+      } else if (currentRoom.equals(victory)) {
+        System.out.println("You are in a comfortable room with a sofa, a water cooler, and a television.\nThere are 4 men in suits on the couch, and the TV appears to be displaying rooms similar to the ones you went through.");
       } else {
         System.out.println("You don't see anything interesting...");
       }
@@ -335,14 +357,58 @@ class Game
       if (currentRoom.equals(chess)) {
         if (inventory.indexOf("map08") > -1) {
           System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Lemme have a look at it.  There ya go.");
-          progress = 1;
+          if (progress == 0) progress = 1;
+          chess.setExits(null, water_riddle, spawn, null);
           System.out.println("**Your map has been upgraded**");
+          System.out.println("**A door has opened!**");
           System.out.println("Bob: Come back to me when you find one of the four.");
         } else {
           System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
         }
       } else {
         System.out.println("Your voice echoes off empty walls");
+      }
+    }
+    //player attempts to answer a riddle
+    public void answer(Command command) {
+      if (!command.hasSecondWord()) {
+        System.out.println("What is your answer?");
+        return;
+      } else {
+        String answer = command.getSecondWord();
+        if (currentRoom.equals(water_riddle) && answer.equals("rain")) {
+          System.out.println("You are correct!");
+          if (progress == 1) {
+            progress++;
+            water_riddle.setExits(null, water, null, chess);
+            chess.setExits(wind_riddle, water_riddle, spawn, null);
+            System.out.println("**A door has opened!**");
+          }
+        } else if (currentRoom.equals(wind_riddle) && answer.equals("hurricane")) {
+            System.out.println("You are correct!");
+            if (progress == 2) {
+              progress++;
+              wind_riddle.setExits(null, wind, chess, null);
+              water_riddle.setExits(null, water, ignorance_riddle, chess);
+              System.out.println("**A door has opened!**");
+            }
+        } else if (currentRoom.equals(ignorance_riddle) && answer.equals("bliss")) {
+            System.out.println("You are correct!");
+            if (progress == 3) {
+              progress++;
+              ignorance_riddle.setExits(water_riddle, null, ignorance, null);
+              chess.setExits(wind_riddle, water_riddle, spawn, victor_riddle);
+              System.out.println("A door has opened!");
+            }
+        } else if (currentRoom.equals(victor_riddle) && answer.equals("nike")) {
+            System.out.println("You are correct!");
+            if (progress == 4) {
+              victor_riddle.setExits(null, chess, null, trinity);
+              System.out.println("A door has opened!");
+            }
+        } else {
+          System.out.println("You are wrong, or there is no riddle to answer.");
+        }
       }
     }
 }
