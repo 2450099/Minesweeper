@@ -74,24 +74,22 @@ class Game
         spawn = new Room("the spawn");
         wrench = new Room("the room with the wrench");
         chess = new Room("the chess room");
-        store = new Room("the store");
-        gym = new Room("the gym");
-        office = new Room("the main office");
-        parking = new Room("the parking lot");
+        water_riddle = new Room("the store");
+        water = new Room("the gym");
+        ignorance_riddle = new Room("the main office");
+        ignorance = new Room("the parking lot");
+        wind_riddle = new Room("");
+        wind = new Room("");
+        victor_riddle = new Room("");
+        trinity = new Room("");
+        victory = new Room("");
 
         // initialise room exits
         // room.setExits(N,E,S,w)
         spawn.setExits(chess, null, wrench, null);
-        spawn.setItems(" dog15 map08 ");
         chess.setExits(null, null, spawn, null);
         wrench.setExits(spawn, null, null, null);
-        wrench.setItems(" wrench12 ");
-        store.setExits(null, null, null, null);
-        store.setItems(" money01 bottle02 ");
-        gym.setExits(null, office, null, null);
-        office.setExits(null, null, null, gym);
-        office.setItems(" dumbell25 stapler16 ");
-        parking.setExits(null,null,null,null);
+        
 
         currentRoom = spawn;  // start game in spawn
     }
