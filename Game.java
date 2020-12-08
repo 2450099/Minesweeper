@@ -114,9 +114,9 @@ class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to Adventure!");
-        System.out.println("Adventure is a new, incredibly boring adventure game.");
-        System.out.println("Type 'help' if you need help.");
+        System.out.println("The World has fallen into an age of darkness and despair.");
+        System.out.println("Only you, the randomly chosen one, can restore balance to the world");
+        System.out.println("Find the 4 essentials of life to bring the world back.");
         System.out.println();
         System.out.println(currentRoom);
     }
