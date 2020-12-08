@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -311,6 +311,7 @@ class Game
         System.out.println("You don't have that map!");
       }
     }
+    //player calls out and sees if anyone will respond
     public void talk() {
       if (currentRoom.equals("chess")) {
         System.out.println("Bob: Ah look, a youngin' come to visit me.  Hullo there, laddio.\nBob: Tell me, what's a young lad like you doing here with an ol' man like myself? \nBob: Off to save the world you say?  Sounds like you're going to need a hand for something like that. \nBob: I'll tell you what.  If you bring be back the 4 cornerstones of life: Water, Air, Ignorance, and Pride, we'll see what we can do.");
