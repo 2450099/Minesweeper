@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -35,7 +35,7 @@ class Game
     final int MAX_CARRY_WEIGHT = 50;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
-    private Room outside, lab, store, gym, office, parking;   
+    private Room spawn, chess, wrench, store, gym, office, parking;   
 
     // This is the parser that deals with input.  You should not have to touch this.
     private Parser parser;
@@ -69,8 +69,9 @@ class Game
     private void createRooms()
     {
         // create the rooms
-        outside = new Room("outside the building");
-        lab = new Room("the lab");
+        spawn = new Room("the spawn");
+        wrench = new Room("the room with the wrench");
+        chess = new Room("the chess room");
         store = new Room("the store");
         gym = new Room("the gym");
         office = new Room("the main office");
@@ -78,17 +79,19 @@ class Game
 
         // initialise room exits
         // room.setExits(N,E,S,w)
-        outside.setExits(parking, lab, gym, store);
-        outside.setItems(" dog15 ");
-        lab.setExits(null, null, null, outside);
-        store.setExits(null, outside, null, null);
+        spawn.setExits(chess, null, wrench, null);
+        spawn.setItems(" dog15 map08 ");
+        chess.setExits(null, null, null, null);
+        wrench.setExits(spawn, null, null, null);
+        wrench.setItems(" wrench12 ")
+        store.setExits(null, null, null, null);
         store.setItems(" money01 bottle02 ");
-        gym.setExits(outside, office, null, null);
+        gym.setExits(null, office, null, null);
         office.setExits(null, null, null, gym);
         office.setItems(" dumbell25 stapler16 ");
-        parking.setExits(null,null,outside,null);
+        parking.setExits(null,null,null,null);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = spawn;  // start game in spawn
     }
 
     /**
@@ -154,6 +157,8 @@ class Game
           System.out.println(currentRoom);
         } else if (commandWord.equals("observe")) {
           printObservation();
+        } else if (commandWord.equals("map")) {
+          map();
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -283,12 +288,19 @@ class Game
     *this provides information about your surroundings
     */
     public void printObservation() {
-      if (currentRoom.equals(outside)) {
+      if (currentRoom.equals(wrench)) {
         System.out.println("You see the vine covered High School, as you stand on a grass lawn.  You are surrounded by some magical bubble that makes you go to weird places when you use the go command...");
       } else if (currentRoom.equals(parking)) {
         System.out.println("You get a car, you get a car, and YOUUUUU get a car!");
       } else {
         System.out.println("You don't see anything interesting...");
+      }
+    }
+    public void map() {
+      if (inventory.indexOf("map08") > -1) {
+        Image map = new Image ("images/ME.jpg");
+      } else {
+        System.out.println("You don't have the map!");
       }
     }
 }
