@@ -33,6 +33,8 @@ class Game
     int tempWeight = 0;
     // The max weight the player can carry
     final int MAX_CARRY_WEIGHT = 50;
+    // Used to keep track of the player's progress
+    int progress = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room spawn, chess, wrench, store, gym, office, parking;   
@@ -80,8 +82,8 @@ class Game
         // initialise room exits
         // room.setExits(N,E,S,w)
         spawn.setExits(chess, null, wrench, null);
-        spawn.setItems(" dog15 spawnmap08 ");
-        chess.setExits(null, null, null, null);
+        spawn.setItems(" dog15 map08 ");
+        chess.setExits(null, null, spawn, null);
         wrench.setExits(spawn, null, null, null);
         wrench.setItems(" wrench12 ");
         store.setExits(null, null, null, null);
@@ -181,10 +183,9 @@ class Game
      */
     private void printHelp() 
     {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at Lake Forest High School.");
-        System.out.println();
-        System.out.println("Your command words are:");
+        if (progress == 1) {
+          System.out.println("You have a goal, but you're not sure how to go about achieving it. \nIf only there was somebody who could give you some advice...");
+        }
         parser.showCommands();
     }
 
@@ -298,23 +299,25 @@ class Game
         System.out.println("You don't see anything interesting...");
       }
     }
-    //brings up map (assuming player has a map)
+    //brings up map (if player has a map)
     public void map() {
-      if (!command.hasSecondWord()) {
-        System.out.println("What map do you want to look at?");
-        return;
-      }
-      String mapSpecific = command.getSecondWord();
-      if (mapSpecific.equals("spawnmap08")) {
-        System.out.println("Woah, it's a spawn map");
+      if (inventory.indexOf("map08") > -1) {
+        System.out.println("Woah, you have a map, but you're illiterate!");
       } else {
         System.out.println("You don't have that map!");
       }
     }
     //player calls out and sees if anyone will respond
     public void talk() {
-      if (currentRoom.equals("chess")) {
-        System.out.println("Bob: Ah look, a youngin' come to visit me.  Hullo there, laddio.\nBob: Tell me, what's a young lad like you doing here with an ol' man like myself? \nBob: Off to save the world you say?  Sounds like you're going to need a hand for something like that. \nBob: I'll tell you what.  If you bring be back the 4 cornerstones of life: Water, Air, Ignorance, and Pride, we'll see what we can do.");
+      if (currentRoom.equals(chess)) {
+        if (inventory.indexOf("map08") > -1) {
+          System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Lemme have a look at it.  There ya go.");
+          progress = 1;
+          System.out.println("**Your map has been upgraded**");
+          System.out.println("Bob: Come back to me when you find one of the four.");
+        } else {
+          System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
+        }
       } else {
         System.out.println("Your voice echoes off empty walls");
       }
