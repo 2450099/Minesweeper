@@ -70,7 +70,7 @@ class Game
         parser = new Parser(INITIAL_COMMANDS);
         inventory = " ";
         finished = false;
-        image = new Image("images/lfhs.jpg");
+        image = new Image("images/spawn.jpg");
     }
 
     /**
@@ -269,6 +269,31 @@ class Game
             previousRoom = currentRoom;
             currentRoom = nextRoom;
             System.out.println(currentRoom);
+            if (currentRoom.equals(wrench)) {
+              image = new Image("images/wrench.jpg");
+            } else if (currentRoom.equals(spawn)) {
+              image = new Image("images/spawn.jpg");
+            } else if (currentRoom.equals(chess)) {
+              image = new Image("images/chess.jpg");
+            } else if (currentRoom.equals(water_riddle)) {
+              image = new Image("images/water_riddle.jpg");
+            } else if (currentRoom.equals(water)) {
+              image = new Image("images/water.jpg");
+            } else if (currentRoom.equals(ignorance_riddle)) {
+              image = new Image("images/ignorance_riddle.jpg");
+            } else if (currentRoom.equals(ignorance)) {
+              image = new Image("images/ignorance.jpg");
+            } else if (currentRoom.equals(wind_riddle)) {
+              image = new Image("images/wind_riddle.jpg");
+            } else if (currentRoom.equals(wind)) {
+              image = new Image("images/wind.jpg");
+            } else if (currentRoom.equals(victor_riddle)) {
+              image = new Image("images/victor_riddle.jpg");
+            } else if (currentRoom.equals(trinity)) {
+              image = new Image("images/trinity.jpg");
+            } else if (currentRoom.equals(victory)) {
+              image = new Image("images/victory.jpg");
+            }
         }
     }
     /**
