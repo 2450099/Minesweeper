@@ -43,6 +43,7 @@ class Game
     int desparation2 = 0;
     int desparation3 = 0;
     int desparation4 = 0;
+    int desparation6 = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room spawn, chess, wrench, water_riddle, water, ignorance_riddle, ignorance, wind_riddle, wind, victor_riddle, trinity, victory;
@@ -234,8 +235,11 @@ class Game
           desparation4 = 1;
         } else if (progress == 4 && desparation4 == 1) {
           System.out.println("Bring the 3 stones to Bob in chess");
-        } else if (progress == 5) {
-          System.out.println("Complete the victor riddle.");
+        } else if (progress == 5 && desparation6 == 0) {
+          System.out.println("Complete the ritual.");
+          desparation6++;
+        } else if (progress == 5 && desparation6 == 1) {
+          System.out.println("Drop the 3 stones in the ritual room");
         } else if (progress == 6) {
           System.out.println("Talk to the men in the victory room");
         }
@@ -548,6 +552,9 @@ class Game
         System.out.println("In the middle of the triangle formed by the pedestals, a bright light forms, with seemingly no source.\nAfter a few seconds, you have to shield your eyes.  Then, with a flash, it is gone.");
         trinity.setExits(victory, victor_riddle, null, null);
         System.out.println("**A door has opened!");
+        if (progress == 5) {
+          progress++;
+        }
       } else {
         System.out.println("The ritual is not ready!");
       }
