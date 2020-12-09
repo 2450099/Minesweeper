@@ -125,7 +125,7 @@ class Game
             processCommand(command);
         }
         System.out.println("Thank you for playing.  Goodbye.");
-    }
+    } 
 
     /**
      * Print out the opening message for the player.
