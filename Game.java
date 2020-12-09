@@ -37,6 +37,12 @@ class Game
     int progress = 0;
     //Used to keep track of Bob's questions
     int bobQuestion = 0;
+    //Used to keep track of how many times a player uses help during a certain phase of the game
+    int desparation0 = 0;
+    int desparation1 = 0;
+    int desparation2 = 0;
+    int desparation3 = 0;
+    int desparation4 = 0;
     // These are references to the rooms that are available.  
     // The actual rooms are created in createRooms().
     private Room spawn, chess, wrench, water_riddle, water, ignorance_riddle, ignorance, wind_riddle, wind, victor_riddle, trinity, victory;
@@ -203,8 +209,35 @@ class Game
      */
     private void printHelp() 
     {
-        if (progress == 1) {
+        if (progress == 0 && desparation0 == 0) {
           System.out.println("You have a goal, but you're not sure how to go about achieving it. \nIf only there was somebody who could give you some advice...");
+          desparation0 = 1;
+        } else if (progress == 0 && desparation0 == 1){
+          System.out.println("Talk to Bob in the chess room.");
+        } else if (progress == 1 && desparation1 == 0) {
+          System.out.println("Do what Bob tells you.");
+          desparation1 = 1;
+        } else if (progress == 1 && desparation1 == 1) {
+          System.out.println("Complete the water riddle.");
+        } else if (progress == 2 && desparation2 == 0) {
+          System.out.println("Do as Bob tells you.");
+          desparation2 = 1;
+        } else if (progress == 2 && desparation2 == 1) {
+          System.out.println("Complete the wind riddle.")
+        } else if (progress == 3 && desparation3 == 0) {
+          System.out.println("Do what Bob asks of you.");
+          desparation3 = 1;
+        } else if (progress == 3 && desparation3 == 1) {
+          System.out.println("Complete the ignorance riddle.");
+        } else if (progress == 4 && desparation4 == 0) {
+          System.out.println("Talk to Bob.");
+          desparation4 = 1;
+        } else if (progress == 4 && desparation4 == 1) {
+          System.out.println("Bring the 3 stones to Bob in chess");
+        } else if (progress == 5) {
+          System.out.println("Complete the victor riddle.");
+        } else if (progress == 6) {
+          System.out.println("Talk to the men in the victory room");
         }
         parser.showCommands();
     }
@@ -442,6 +475,7 @@ class Game
             System.out.println("You are correct!");
             if (progress == 4) {
               victor_riddle.setExits(null, chess, null, trinity);
+              progress++;
               System.out.println("A door has opened!");
             }
         } else if (currentRoom.equals(chess) && bobQuestion > 0) {
