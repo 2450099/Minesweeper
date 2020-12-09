@@ -1,16 +1,38 @@
 /**
- *  IMPORTANT - Replace this entire header with an actual description of your game.
+ *  World Saver - Ep. 1
  *  
  *  Class Game - the main class of the adventure game
  *
- *  This class is the main class of a very simple text based adventure game.  
- *  Users can walk around some scenery. That's all. 
- *  It should really be modified to make it more interesting!
+ *  This class is the main class of text based adventure game.  
+ *  The user must seek Bob's help in collecting the three essentials of human life - water, wind, and ignorance - and then complete the ritual to save the world.
  * 
- *  To play this game, create an instance of this class and call the "play" method
+ *  Talk to people, move between rooms, check an updating map, pick up and drop items, look around a room, and so much more!
+ *  
+ *
  *  
  *  @author  Kolling/Aronson
- *  @version .1
+ *  @author Koefelda
+ *  @version 1.0
+ *  BELOW IS A PLAYTHROUGH
+ *  BELOW ARE SPOILERS
+ *  1. Pick up the map in the spawn
+ *  2. Go north and talk to Bob
+ *  3. Go east, give the answer to the riddle (rain)
+ *  4. Go east and get both the stone and the water
+ *  5. Go west twice, then north
+ *  6. Give the answer to the riddle (hurricane)
+ *  7. Go east and get the wind stone and the first aid kit
+ *  8. Go west, south, east, and south
+ *  9. Give the answer to the riddle (bliss)
+ *  10. Go south and get the ignorance stone and the food04
+ *  11. Go north twice, go west
+ *  12. Talk to Bob
+ *  13. Answer Bob's questions (Yes, (any), Yes)
+ *  14. Go west
+ *  15. Answer the riddle (nike)
+ *  16. Go west
+ *  17. Complete the ritual (drop 3 stones, ritual command)
+ *  18. Go north and talk to the men in suits
  */
 
 class Game 
