@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug answer ritual";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk  answer ritual";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -184,8 +184,6 @@ class Game
           map();
         } else if (commandWord.equals("talk")) {
           talk();
-        } else if (commandWord.equals("debug")) {
-          progress++;
         } else if (commandWord.equals("answer")) {
           answer(command);
         } else if (commandWord.equals("ritual")) {
