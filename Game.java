@@ -97,7 +97,7 @@ class Game
         spawn.setExits(chess, null, wrench, null);
         spawn.setItems(" map08 halberd08 ");
         chess.setExits(null, null, spawn, null);
-        chess.setItems(" chess02 dagger05 ")
+        chess.setItems(" chess02 dagger05 ");
         wrench.setExits(spawn, null, null, null);
         wrench.setItems(" wrench12 bananas02 ");
         water_riddle.setExits(null, null, null, chess);
@@ -223,7 +223,7 @@ class Game
           System.out.println("Do as Bob tells you.");
           desparation2 = 1;
         } else if (progress == 2 && desparation2 == 1) {
-          System.out.println("Complete the wind riddle.")
+          System.out.println("Complete the wind riddle.");
         } else if (progress == 3 && desparation3 == 0) {
           System.out.println("Do what Bob asks of you.");
           desparation3 = 1;
