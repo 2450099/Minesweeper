@@ -82,15 +82,15 @@ class Game
         spawn = new Room("the spawn");
         wrench = new Room("the room with the wrench");
         chess = new Room("the chess room");
-        water_riddle = new Room("the store");
-        water = new Room("the gym");
-        ignorance_riddle = new Room("the main office");
-        ignorance = new Room("the parking lot");
-        wind_riddle = new Room("");
-        wind = new Room("");
-        victor_riddle = new Room("");
-        trinity = new Room("");
-        victory = new Room("");
+        water_riddle = new Room("the room with the water riddle");
+        water = new Room("the room of the water stone");
+        ignorance_riddle = new Room("the room with the ignorance riddle");
+        ignorance = new Room("the room with the ignorance stone");
+        wind_riddle = new Room("the room with the wind riddle");
+        wind = new Room("the room with the wind stone");
+        victor_riddle = new Room("the room with the final riddle");
+        trinity = new Room("the ritual room");
+        victory = new Room("the room of victors");
 
         // initialise room exits
         // room.setExits(N,E,S,w)
