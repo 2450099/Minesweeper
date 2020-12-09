@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "answer back drop exits go help inventory items map observe pick quit ritual";
+    private final String INITIAL_COMMANDS = "answer back drop exits go help inventory items map observe pick quit talk ritual";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -271,30 +271,31 @@ class Game
             previousRoom = currentRoom;
             currentRoom = nextRoom;
             System.out.println(currentRoom);
+            //changes image to room entered
             if (currentRoom.equals(wrench)) {
-              image = new Image("images/wrench.jpg");
+              image.setImage("images/wrench.jpg");
             } else if (currentRoom.equals(spawn)) {
-              image = new Image("images/spawn.jpg");
+              image.setImage("images/spawn.jpg");
             } else if (currentRoom.equals(chess)) {
-              image = new Image("images/chess.jpg");
+              image.setImage("images/chess.jpg");
             } else if (currentRoom.equals(water_riddle)) {
-              image = new Image("images/water_riddle.jpg");
+              image.setImage("images/water_riddle.jpg");
             } else if (currentRoom.equals(water)) {
-              image = new Image("images/water.jpg");
+              image.setImage("images/water.jpg");
             } else if (currentRoom.equals(ignorance_riddle)) {
-              image = new Image("images/ignorance_riddle.jpg");
+              image.setImage("images/ignorance_riddle.jpg");
             } else if (currentRoom.equals(ignorance)) {
-              image = new Image("images/ignorance.jpg");
+              image.setImage("images/ignorance.jpg");
             } else if (currentRoom.equals(wind_riddle)) {
-              image = new Image("images/wind_riddle.jpg");
+              image.setImage("images/wind_riddle.jpg");
             } else if (currentRoom.equals(wind)) {
-              image = new Image("images/wind.jpg");
+              image.setImage("images/wind.jpg");
             } else if (currentRoom.equals(victor_riddle)) {
-              image = new Image("images/victor_riddle.jpg");
+              image.setImage("images/victor_riddle.jpg");
             } else if (currentRoom.equals(trinity)) {
-              image = new Image("images/trinity.jpg");
+              image.setImage("images/trinity.jpg");
             } else if (currentRoom.equals(victory)) {
-              image = new Image("images/victory.jpg");
+              image.setImage("images/victory.jpg");
             }
         }
     }
@@ -400,26 +401,30 @@ class Game
         System.out.println("You don't see anything interesting...");
       }
     }
-    //brings up map (if player has a map)
+    /**
+    *brings up map (if player has a map)
+    */
     public void map() {
       if (inventory.indexOf("map08") > -1) {
         if (progress == 0) {
-          image = new Image("images/map1.png");
+          image.setImage("images/map1.png");
         } else if (progress == 1) {
-          image = new Image("images/map2.png");
+          image.setImage("images/map2.png");
         } else if (progress == 2) {
-          image = new Image("images/map3.png");
+          image.setImage("images/map3.png");
         } else if (progress == 3) {
-          image = new Image("images/map4.png");
+          image.setImage("images/map4.png");
         } else if (progress == 4) {
-          image = new Image("images/map5.png");
+          image.setImage("images/map5.png");
         }
         System.out.println("You opened your map!");
       } else {
         System.out.println("You don't have that map!");
       }
     }
-    //player calls out and sees if anyone will respond
+    /**
+    *player calls out and sees if anyone will respond
+    */
     public void talk() {
       if (currentRoom.equals(chess)) {
         if (progress == 0 || progress == 1) {
@@ -469,7 +474,9 @@ class Game
         System.out.println("Your voice echoes off empty walls");
       }
     }
-    //player attempts to answer a riddle
+    /**
+    *player attempts to answer a riddle
+    */
     public void answer(Command command) {
       if (!command.hasSecondWord()) {
         System.out.println("What is your answer?");
@@ -544,7 +551,9 @@ class Game
         }
       }
     }
-    //Performs the ritual in trinity
+    /**
+    *Performs the ritual in trinity
+    */
     public void ritual() {
       if (currentRoom.equals(trinity) && currentRoom.getItems().indexOf("water_stone12") > -1 && currentRoom.getItems().indexOf("wind_stone12") > -1 && currentRoom.getItems().indexOf("ignorance_stone12") > -1) {
         System.out.println("In the middle of the triangle formed by the pedestals, a bright light forms, with seemingly no source.\nAfter a few seconds, you have to shield your eyes.  Then, with a flash, it is gone.");
