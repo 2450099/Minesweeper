@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk  answer ritual";
+    private final String INITIAL_COMMANDS = "answer back drop exits go help inventory items map observe pick quit ritual";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
