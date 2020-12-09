@@ -89,19 +89,20 @@ class Game
         // initialise room exits
         // room.setExits(N,E,S,w)
         spawn.setExits(chess, null, wrench, null);
-        spawn.setItems(" map08 ");
+        spawn.setItems(" map08 halberd08 ");
         chess.setExits(null, null, spawn, null);
+        chess.setItems(" chess02 dagger05 ")
         wrench.setExits(spawn, null, null, null);
-        wrench.setItems(" wrench12 ");
+        wrench.setItems(" wrench12 bananas02 ");
         water_riddle.setExits(null, null, null, chess);
         water.setExits(null, null, null, water_riddle);
-        water.setItems(" water_stone12 ");
+        water.setItems(" water_stone12 water04 ");
         ignorance_riddle.setExits(water_riddle, null, null, null);
         ignorance.setExits(ignorance_riddle, null, null, null);
-        ignorance.setItems(" ignorance_stone12 ");
+        ignorance.setItems(" ignorance_stone12 food04 ");
         wind_riddle.setExits(null, null, chess, null);
         wind.setExits(null, null, null, wind_riddle);
-        wind.setItems(" wind_stone12 ");
+        wind.setItems(" wind_stone12 firstaid04 ");
         victor_riddle.setExits(null, chess, null, null);
         trinity.setExits(null, victor_riddle, null, null);
         victory.setExits(null, null, trinity, null);
@@ -389,6 +390,18 @@ class Game
           } else {
             System.out.println("Bob: Why don't you have all the stones?\nBob: Bring them here and I'll tell you how to finish.  Hurry up.");
           }
+        }
+      } else if (currentRoom.equals(victory)) {
+        if (inventory.indexOf("food04") > -1 && inventory.indexOf("water06") > -1 && inventory.indexOf("firstaid04") > -1) {
+          System.out.println("Suit1: Congratulations on making it out.  You passed the test in front of you, but also have the skills to survive.\nSuit2: Had you come out with nothing, or useless junk, you would have been useless to us.\nSuit3: But since you came out with what you needed to survive in the case of a prolonged journey, it's time for your training.");
+          System.out.println("**Screen fades to black, followed by epic training arc to save the world**");
+          System.out.println("You beat the game!");
+          finished = true;
+        } else {
+          System.out.println("Suit1: Good job on making it out, and completign the ritual.\nSuit2: Unforunately, you only see what's in front of you.\nSuit3: Our candidates are expected to prepare themselves for what's to come if they are going to work with us.  You didn't.\nSuit4: As such, we no longer have need of you.  See yourself out.");
+          System.out.println("**You are given the boot with nowhere to go**");
+          System.out.println("You finished, but did you realy win?");
+          finished = true;
         }
       } else {
         System.out.println("Your voice echoes off empty walls");
