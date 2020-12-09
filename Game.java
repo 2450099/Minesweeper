@@ -16,7 +16,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug answer";
+    private final String INITIAL_COMMANDS = "go quit help back items pick inventory drop exits observe map talk debug answer ritual";
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -180,6 +180,8 @@ class Game
           progress++;
         } else if (commandWord.equals("answer")) {
           answer(command);
+        } else if (commandWord.equals("ritual")) {
+          ritual();
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -369,19 +371,19 @@ class Game
             System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
           }
         } else if (progress == 2) {
-          if (inventory.indexOf(water_stone12) > -1) {
-            System.out.println("Bob: Ah, I see you have the water stone.\nGo try to another of the three will you?")
+          if (inventory.indexOf("water_stone12") > -1) {
+            System.out.println("Bob: Ah, I see you have the water stone.\nGo try to another of the three will you?");
           } else {
             System.out.println("Bob: Hm, you don't have the water stone?  It should have been in the room after the riddle...\nBob: Go get it.");
           }
         } else if (progress == 3) {
-          if (inventory.indexOf(wind_stone12) > -1) {
+          if (inventory.indexOf("wind_stone12") > -1) {
             System.out.println("Bob: You got the wind stone!  I never could figure out that dumb riddle.\nGo get the last of the three, will you?");
           } else {
             System.out.println("Bob: Huh, why don't you have the wind stone?  It should have been in the room after the riddle... \nBob: Go get it for me.");
           }
         } else if (progress == 4) {
-          if (inventory.indexOf(water_stone12) > -1 && inventory.indexOf(wind_stone12) > -1 && inventory.indexOf(ignorance_stone12) > -1) {
+          if (inventory.indexOf("water_stone12") > -1 && inventory.indexOf("wind_stone12") > -1 && inventory.indexOf("ignorance_stone12") > -1) {
             System.out.println("Bob: Hey, you got all the stones!\nBob: Now, I'm very proud of you for succeeding where I've failed all these years.\nBob: To think I've wasted all this time, just to have somebody show up and hand me the stones!\nBob: Oh, don't look so distressed, anyone would have been as easy to trick as you.\nBob: Alright, how about a game.  I give you three questions, and if you answer them all, you can pass.\nBob: Oh, right, the door's been right behind me this whole time, I just needed the stones. \nBob: Alright, first question: Is the world really worth saving?");
             bobQuestion = 1;
           } else {
@@ -432,11 +434,11 @@ class Game
         } else if (currentRoom.equals(chess) && bobQuestion > 0) {
           if (bobQuestion == 1) {
             if (answer.equals("yes") || answer.equals("y")) {
-              bobQuestion == 2;
+              bobQuestion = 2;
               System.out.println("Bob: HAH, wrong, but I suppose that's opinion.\nBob: Here's your second question: What is the best word in the english  dictionary?");
             } else if (answer.equals("no") || answer.equals("n")) {
               System.out.println("Bob: Correct, but I suppose there's no reason for me to give you the stones then...");
-              System.out.println("**Old Bob takes you out**")
+              System.out.println("**Old Bob takes you out**");
               finished = true;
             } else {
               System.out.println("Bob: What kind of answer is that?");
@@ -448,7 +450,7 @@ class Game
               System.out.println("Bob: Wrong, it's rhododendron.  But, I suppose, that's opinion too, isn't it.  Fine, you pass.\nBob: Last question: Are there ancient pyramids in Mexico?");
               bobQuestion = 3;
             } else {
-              System.out.println("Bob: YES\nBob:Alright, last question: Are there ancient pyramids in Mexico?")
+              System.out.println("Bob: YES\nBob:Alright, last question: Are there ancient pyramids in Mexico?");
               bobQuestion = 3;
             }
           } else if (bobQuestion == 3) {
@@ -464,6 +466,16 @@ class Game
         } else {
           System.out.println("You are wrong, or there is no riddle to answer.");
         }
+      }
+    }
+    //Performs the ritual in trinity
+    public void ritual() {
+      if (currentRoom.equals(trinity) && currentRoom.getItems().indexOf("water_stone12") > -1 && currentRoom.getItems().indexOf("wind_stone12") > -1 && currentRoom.getItems().indexOf("ignorance_stone12") > -1) {
+        System.out.println("In the middle of the triangle formed by the pedestals, a bright light forms, with seemingly no source.\nAfter a few seconds, you have to shield your eyes.  Then, with a flash, it is gone.");
+        trinity.setExits(victory, victor_riddle, null, null);
+        System.out.println("**A door has opened!");
+      } else {
+        System.out.println("The ritual is not ready!");
       }
     }
 }
