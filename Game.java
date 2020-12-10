@@ -51,12 +51,22 @@ class Game
     String tempItem = "";
     //The weight of all things the player is holding
     int invWeight = 0; 
+    //Used to count all the things the player is holding
+    int invCount = 0;
     // used to check if you can pick up an item
     int tempWeight = 0;
     // The max weight the player can carry
     final int MAX_CARRY_WEIGHT = 58;
     // Used to keep track of the player's progress
     int progress = 0;
+    final int GET_MAP = 0;
+    final int GO_WATER = 1;
+    final int GO_WIND = 2;
+    final int GO_IGNORANCE = 3;
+    final int GO_VICTOR = 4;
+    final int GO_RITUAL = 5;
+    final int GO_FINISH = 6;
+
     //Used to keep track of Bob's questions
     int bobQuestion = 0;
     //Used to keep track of how many times a player uses help during a certain phase of the game
@@ -165,6 +175,7 @@ class Game
         System.out.println("The World has fallen into an age of darkness and despair.");
         System.out.println("Only you, the randomly chosen one, can restore balance to the world");
         System.out.println("Find the 3 essentials of life to bring the world back.");
+        System.out.println("Remember, you don't know how long this will take.  Perhaps you should grab essentials?");
         System.out.println();
         System.out.println(currentRoom);
     }
@@ -230,37 +241,37 @@ class Game
      */
     private void printHelp() 
     {
-        if (progress == 0 && desparation0 == 0) {
+        if (progress == GET_MAP && desparation0 == 0) {
           System.out.println("You have a goal, but you're not sure how to go about achieving it. \nIf only there was somebody who could give you some advice...");
           desparation0 = 1;
-        } else if (progress == 0 && desparation0 == 1){
+        } else if (progress == GET_MAP && desparation0 == 1){
           System.out.println("Talk to Bob in the chess room.");
-        } else if (progress == 1 && desparation1 == 0) {
+        } else if (progress == GO_WATER && desparation1 == 0) {
           System.out.println("Do what Bob tells you.");
           desparation1 = 1;
-        } else if (progress == 1 && desparation1 == 1) {
+        } else if (progress == GO_WATER && desparation1 == 1) {
           System.out.println("Complete the water riddle.");
-        } else if (progress == 2 && desparation2 == 0) {
+        } else if (progress == GO_WIND && desparation2 == 0) {
           System.out.println("Do as Bob tells you.");
           desparation2 = 1;
-        } else if (progress == 2 && desparation2 == 1) {
+        } else if (progress == GO_WIND && desparation2 == 1) {
           System.out.println("Complete the wind riddle.");
-        } else if (progress == 3 && desparation3 == 0) {
+        } else if (progress == GO_IGNORANCE && desparation3 == 0) {
           System.out.println("Do what Bob asks of you.");
           desparation3 = 1;
-        } else if (progress == 3 && desparation3 == 1) {
+        } else if (progress == GO_IGNORANCE && desparation3 == 1) {
           System.out.println("Complete the ignorance riddle.");
-        } else if (progress == 4 && desparation4 == 0) {
+        } else if (progress == GO_VICTOR && desparation4 == 0) {
           System.out.println("Talk to Bob.");
           desparation4 = 1;
-        } else if (progress == 4 && desparation4 == 1) {
+        } else if (progress == GO_VICTOR && desparation4 == 1) {
           System.out.println("Bring the 3 stones to Bob in chess");
-        } else if (progress == 5 && desparation6 == 0) {
+        } else if (progress == GO_RITUAL && desparation6 == 0) {
           System.out.println("Complete the ritual.");
           desparation6++;
-        } else if (progress == 5 && desparation6 == 1) {
+        } else if (progress == GO_RITUAL && desparation6 == 1) {
           System.out.println("Drop the 3 stones in the ritual room");
-        } else if (progress == 6) {
+        } else if (progress == GO_FINISH) {
           System.out.println("Talk to the men in the victory room");
         }
         System.out.println("COMMANDS:");
@@ -356,6 +367,13 @@ class Game
         System.out.println("You have nothing in your inventory!");
       } else {
         System.out.println(inventory);
+        invCount = 0;
+        for (int i = 0; i < inventory.length()-1; i++) {
+          if (inventory.substring(i,i+2).equals("0 ") || inventory.substring(i,i+2).equals("1 ") || inventory.substring(i,i+2).equals("2 ") || inventory.substring(i,i+2).equals("3 ") || inventory.substring(i,i+2).equals("4 ") || inventory.substring(i,i+2).equals("5 ") || inventory.substring(i,i+2).equals("6 ") || inventory.substring(i,i+2).equals("7 ") || inventory.substring(i,i+2).equals("8 ") || inventory.substring(i,i+2).equals("9 ")) {
+            invCount++;
+          }
+        }
+        System.out.println("You have " + invCount + " items!");
       }
     }
     /**
@@ -428,15 +446,15 @@ class Game
     */
     public void map() {
       if (inventory.indexOf("map08") > -1) {
-        if (progress == 0) {
+        if (progress == GET_MAP) {
           image.setImage("images/map1.png");
-        } else if (progress == 1) {
+        } else if (progress == GO_WATER) {
           image.setImage("images/map2.png");
-        } else if (progress == 2) {
+        } else if (progress == GO_WIND) {
           image.setImage("images/map3.png");
-        } else if (progress == 3) {
+        } else if (progress == GO_IGNORANCE) {
           image.setImage("images/map4.png");
-        } else if (progress == 4) {
+        } else if (progress == GO_VICTOR) {
           image.setImage("images/map5.png");
         }
         System.out.println("You opened your map!");
@@ -449,10 +467,10 @@ class Game
     */
     public void talk() {
       if (currentRoom.equals(chess)) {
-        if (progress == 0 || progress == 1) {
+        if (progress == GET_MAP || progress == GO_WATER) {
           if (inventory.indexOf("map08") > -1) {
             System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Lemme have a look at it.  There ya go.");
-            if (progress == 0) progress = 1;
+            if (progress == GET_MAP) progress = GO_WATER;
             chess.setExits(null, water_riddle, spawn, null);
             System.out.println("**Your map has been upgraded**");
             System.out.println("**A door has opened!**");
@@ -460,19 +478,19 @@ class Game
           } else {
             System.out.println("Bob: Hullo, there! What're ye doing here? \nBob: Saving the world, ye say? Sounds like ye need some help. \nBob: Ye got a map? Hmm, go find a map and come back.");
           }
-        } else if (progress == 2) {
+        } else if (progress == GO_WIND) {
           if (inventory.indexOf("water_stone12") > -1) {
             System.out.println("Bob: Ah, I see you have the water stone.\nGo try to another of the three will you?");
           } else {
             System.out.println("Bob: Hm, you don't have the water stone?  It should have been in the room after the riddle...\nBob: Go get it.");
           }
-        } else if (progress == 3) {
+        } else if (progress == GO_IGNORANCE) {
           if (inventory.indexOf("wind_stone12") > -1) {
             System.out.println("Bob: You got the wind stone!  I never could figure out that dumb riddle.\nGo get the last of the three, will you?");
           } else {
             System.out.println("Bob: Huh, why don't you have the wind stone?  It should have been in the room after the riddle... \nBob: Go get it for me.");
           }
-        } else if (progress == 4) {
+        } else if (progress == GO_VICTOR) {
           if (inventory.indexOf("water_stone12") > -1 && inventory.indexOf("wind_stone12") > -1 && inventory.indexOf("ignorance_stone12") > -1) {
             System.out.println("Bob: Hey, you got all the stones!\nBob: Now, I'm very proud of you for succeeding where I've failed all these years.\nBob: Unforunately, I'm going to have to take those from you now.\nBob: To think I've wasted all this time, just to have somebody show up and hand me the stones!\nBob: Oh, don't look so distressed, anyone would have been as easy to trick as you.\nBob: Alright, how about a game.  I give you three questions, and if you answer them all, you can pass.\nBob: Oh, right, the door's been right behind me this whole time, I just needed the stones. \nBob: Alright, first question: Is the world really worth saving?");
             bobQuestion = 1;
@@ -507,7 +525,7 @@ class Game
         String answer = command.getSecondWord();
         if (currentRoom.equals(water_riddle) && answer.equals("rain")) {
           System.out.println("You are correct!");
-          if (progress == 1) {
+          if (progress == GO_WATER) {
             progress++;
             water_riddle.setExits(null, water, null, chess);
             chess.setExits(wind_riddle, water_riddle, spawn, null);
@@ -515,7 +533,7 @@ class Game
           }
         } else if (currentRoom.equals(wind_riddle) && answer.equals("hurricane")) {
             System.out.println("You are correct!");
-            if (progress == 2) {
+            if (progress == GO_WIND) {
               progress++;
               wind_riddle.setExits(null, wind, chess, null);
               water_riddle.setExits(null, water, ignorance_riddle, chess);
@@ -523,7 +541,7 @@ class Game
             }
         } else if (currentRoom.equals(ignorance_riddle) && answer.equals("bliss")) {
             System.out.println("You are correct!");
-            if (progress == 3) {
+            if (progress == GO_IGNORANCE) {
               progress++;
               ignorance_riddle.setExits(water_riddle, null, ignorance, null);
               chess.setExits(wind_riddle, water_riddle, spawn, null);
@@ -531,7 +549,7 @@ class Game
             }
         } else if (currentRoom.equals(victor_riddle) && answer.equals("nike")) {
             System.out.println("You are correct!");
-            if (progress == 4) {
+            if (progress == GO_VICTOR) {
               victor_riddle.setExits(null, chess, null, trinity);
               progress++;
               System.out.println("A door has opened!");
@@ -581,7 +599,7 @@ class Game
         System.out.println("In the middle of the triangle formed by the pedestals, a bright light forms, with seemingly no source.\nAfter a few seconds, you have to shield your eyes.  Then, with a flash, it is gone.");
         trinity.setExits(victory, victor_riddle, null, null);
         System.out.println("**A door has opened!");
-        if (progress == 5) {
+        if (progress == GO_RITUAL) {
           progress++;
         }
       } else {
