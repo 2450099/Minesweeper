@@ -173,7 +173,7 @@ class Game
     {
         System.out.println();
         System.out.println("The World has fallen into an age of darkness and despair.");
-        System.out.println("Only you, the randomly chosen one, can restore balance to the world");
+        System.out.println("Only you, the randomly chosen one, can restore balance to the world.");
         System.out.println("Find the 3 essentials of life to bring the world back.");
         System.out.println("Remember, you don't know how long this will take.  Perhaps you should grab essentials?");
         System.out.println();
@@ -548,14 +548,14 @@ class Game
               progress++;
               ignorance_riddle.setExits(water_riddle, null, ignorance, null);
               chess.setExits(wind_riddle, water_riddle, spawn, null);
-              System.out.println("A door has opened!");
+              System.out.println("**A door has opened!**");
             }
         } else if (currentRoom.equals(victor_riddle) && answer.equals("nike")) {
             System.out.println("You are correct!");
             if (progress == GO_VICTOR) {
               victor_riddle.setExits(null, chess, null, trinity);
               progress++;
-              System.out.println("A door has opened!");
+              System.out.println("**A door has opened!**");
             }
         } else if (currentRoom.equals(chess) && bobQuestion > 0) {
           if (bobQuestion == 1) {
@@ -601,7 +601,7 @@ class Game
       if (currentRoom.equals(trinity) && currentRoom.getItems().indexOf("water_stone12") > -1 && currentRoom.getItems().indexOf("wind_stone12") > -1 && currentRoom.getItems().indexOf("ignorance_stone12") > -1) {
         System.out.println("In the middle of the triangle formed by the pedestals, a bright light forms, with seemingly no source.\nAfter a few seconds, you have to shield your eyes.  Then, with a flash, it is gone.");
         trinity.setExits(victory, victor_riddle, null, null);
-        System.out.println("**A door has opened!");
+        System.out.println("**A door has opened!**");
         if (progress == GO_RITUAL) {
           progress++;
         }
