@@ -226,6 +226,9 @@ class Game
         }
 
     }
+    /**
+    * Takes you to the previous room
+    */
     private void goBack() {
       if (previousRoom != null) {
         currentRoom = previousRoom;
