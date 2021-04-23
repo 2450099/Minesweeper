@@ -14,6 +14,7 @@
  *
  * The second word is not checked at the moment. It can be anything.
  */
+ testestest;
 
 class Command
 {
