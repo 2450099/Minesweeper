@@ -38,7 +38,10 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "answer back drop exits go help inventory items map observe pick quit talk ritual";
+    private final String INITIAL_COMMANDS = "turn answer back drop exits go help inventory items map observe pick quit talk ritual";
+    private int[] posx = new int[9];
+    private int[] poso = new int[9];
+    private boolean who = false;
     // This is the current room that that player is in
     private Room currentRoom;
      //This is the room the player was just in
@@ -92,6 +95,7 @@ class Game
     {
         Game game = new Game();
         game.play();
+
     }
 
     /**
@@ -103,7 +107,7 @@ class Game
         parser = new Parser(INITIAL_COMMANDS);
         inventory = " ";
         finished = false;
-        image = new Image("images/spawn.jpg");
+        image = new Image("images/board.jpg");
     }
 
     /**
@@ -155,7 +159,7 @@ class Game
     public void play() 
     {            
         printWelcome();
-
+        who = false;
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
         while (!finished)
@@ -172,12 +176,8 @@ class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("The World has fallen into an age of darkness and despair.");
-        System.out.println("Only you, the randomly chosen one, can restore balance to the world.");
-        System.out.println("Find the 3 essentials of life to bring the world back.");
-        System.out.println("Remember, you don't know how long this will take.  Perhaps you should grab essentials?");
+        System.out.println("This is Tic Tac Toe. \nUse turn [position] to play.  \nIf you get lost, use help.  \n Good Luck!");
         System.out.println();
-        System.out.println(currentRoom);
     }
 
     /**
@@ -221,10 +221,205 @@ class Game
           answer(command);
         } else if (commandWord.equals("ritual")) {
           ritual();
+        } else if (commandWord.equals("turn")) {
+          turn(command);
         } else {
           System.out.println("Command not implemented yet.");
         }
 
+    }
+    public void turn(Command command) {
+      if (!command.hasSecondWord()) {
+        System.out.println("Where?");
+          return;
+      }
+      String pos = command.getSecondWord();
+      if (who == false) {
+        if (pos.equals("a1")) {
+          if (poso[0] != 1) {
+            posx[0] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("a2")) {
+          if (poso[1] != 1) {
+            posx[1] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("a3")) {
+          if (poso[2] != 1) {
+            posx[2] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b1")) {
+          if (poso[3] != 1) {
+            posx[3] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b2")) {
+          if (poso[4] != 1) {
+            posx[4] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b3")) {
+          if (poso[5] != 1) {
+            posx[5] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c1")) {
+          if (poso[6] != 1) {
+            posx[6] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c2")) {
+          if (poso[7] != 1) {
+            posx[7] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c3")) {
+          if (poso[8] != 1) {
+            posx[8] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        }
+      } else if (who == true) {
+        if (pos.equals("a1")) {
+          if (posx[0] != 1) {
+            poso[0] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("a2")) {
+          if (posx[1] != 1) {
+            poso[1] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("a3")) {
+          if (posx[2] != 1) {
+            poso[2] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b1")) {
+          if (posx[3] != 1) {
+            poso[3] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b2")) {
+          if (posx[4] != 1) {
+            poso[4] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("b3")) {
+          if (posx[5] != 1) {
+            poso[5] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c1")) {
+          if (posx[6] != 1) {
+            poso[6] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c2")) {
+          if (posx[7] != 1) {
+            poso[7] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        } else if (pos.equals("c3")) {
+          if (posx[8] != 1) {
+            poso[8] = 1;
+          } else {
+            System.out.println("Spot taken!");
+          }
+        }
+      }
+      showBoard();
+      if (who == true) {
+        who = false;
+      } else {
+        who = true;
+      }
+    }
+    public void showBoard() {
+      if (poso[0] == 1) {
+        System.out.print("O ");
+      } else if (posx[0] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[1] == 1) {
+        System.out.print("O ");
+      } else if (posx[1] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[2] == 1) {
+        System.out.print("O ");
+      } else if (posx[2] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      System.out.println();
+      if (poso[3] == 1) {
+        System.out.print("O ");
+      } else if (posx[3] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[4] == 1) {
+        System.out.print("O ");
+      } else if (posx[4] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[5] == 1) {
+        System.out.print("O ");
+      } else if (posx[5] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      System.out.println();
+      if (poso[6] == 1) {
+        System.out.print("O ");
+      } else if (posx[6] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[7] == 1) {
+        System.out.print("O ");
+      } else if (posx[7] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
+      if (poso[8] == 1) {
+        System.out.print("O ");
+      } else if (posx[8] == 1) {
+        System.out.print("X ");
+      } else {
+        System.out.print("- ");
+      }
     }
     /**
     * Takes you to the previous room
