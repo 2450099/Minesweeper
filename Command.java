@@ -14,7 +14,7 @@
  *
  * The second word is not checked at the moment. It can be anything.
  */
-
+testestsets;
 class Command
 {
     private String commandWord;
