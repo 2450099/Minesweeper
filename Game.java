@@ -444,12 +444,23 @@ class Game
     }
 
     public void checkWin() {
-      if ((posx[0] == 1 && posx[1] == 1 && posx[2] == 1) || (posx[3] == 1 && posx[4] == 1 && posx[5] == 1) || (posx[6] == 1 && posx[7] == 1 && posx[8] == 1) || (posx[0] == 1 && posx[4] == 1 && posx[8] == 1) || (posx[2] == 1 && posx[4] == 1 && posx[6] == 1)) {
+      boolean a = true;
+      if ((posx[0] == 1 && posx[1] == 1 && posx[2] == 1) || (posx[3] == 1 && posx[4] == 1 && posx[5] == 1) || (posx[6] == 1 && posx[7] == 1 && posx[8] == 1) || (posx[0] == 1 && posx[4] == 1 && posx[8] == 1) || (posx[2] == 1 && posx[4] == 1 && posx[6] == 1) || (posx[0] == 1 && posx[3] == 1 && posx[6] == 1) || (posx[1] == 1 && posx[4] == 1 && posx[7] == 1) || (posx[2] == 1 && posx[5] == 1 && posx[8] == 1)) {
         System.out.println("\nX Wins!");
         finished = true;
-      } else if ((poso[0] == 1 && poso[1] == 1 && poso[2] == 1) || (poso[3] == 1 && poso[4] == 1 && poso[5] == 1) || (poso[6] == 1 && poso[7] == 1 && poso[8] == 1) || (poso[0] == 1 && poso[4] == 1 && poso[8] == 1) || (poso[2] == 1 && poso[4] == 1 && poso[6] == 1)) {
+      } else if ((poso[0] == 1 && poso[1] == 1 && poso[2] == 1) || (poso[3] == 1 && poso[4] == 1 && poso[5] == 1) || (poso[6] == 1 && poso[7] == 1 && poso[8] == 1) || (poso[0] == 1 && poso[4] == 1 && poso[8] == 1) || (poso[2] == 1 && poso[4] == 1 && poso[6] == 1) || (poso[0] == 1 && poso[3] == 1 && poso[6] == 1) || (poso[1] == 1 && poso[4] == 1 && poso[7] == 1) || (poso[2] == 1 && poso[5] == 1 && poso[8] == 1)) {
         System.out.println("\nO Wins!");
         finished = true;
+      } else {
+        for (int i = 0; i < poso.length; i++) {
+          if (!(poso[i] == 1 || posx[i] == 1)) {
+            a = false;
+          }
+        }
+        if (a == true) {
+          System.out.println("\nCat's Game!");
+          finished = true;
+        }
       }
     }
     /**
