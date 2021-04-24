@@ -236,114 +236,132 @@ class Game
       String pos = command.getSecondWord();
       if (who == false) {
         if (pos.equals("a1")) {
-          if (poso[0] != 1) {
+          if (poso[0] != 1 && posx[0] != 1) {
             posx[0] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("a2")) {
-          if (poso[1] != 1) {
+          if (poso[1] != 1 && posx[1] != 1) {
             posx[1] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("a3")) {
-          if (poso[2] != 1) {
+          if (poso[2] != 1 && posx[2] != 1) {
             posx[2] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b1")) {
-          if (poso[3] != 1) {
+          if (poso[3] != 1 && posx[3] != 1) {
             posx[3] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b2")) {
-          if (poso[4] != 1) {
+          if (poso[4] != 1 && posx[4] != 1) {
             posx[4] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b3")) {
-          if (poso[5] != 1) {
+          if (poso[5] != 1 && posx[5] != 1) {
             posx[5] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c1")) {
-          if (poso[6] != 1) {
+          if (poso[6] != 1 && posx[6] != 1) {
             posx[6] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c2")) {
-          if (poso[7] != 1) {
+          if (poso[7] != 1 && posx[7] != 1) {
             posx[7] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c3")) {
-          if (poso[8] != 1) {
+          if (poso[8] != 1 && posx[8] != 1) {
             posx[8] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         }
       } else if (who == true) {
         if (pos.equals("a1")) {
-          if (posx[0] != 1) {
+          if (posx[0] != 1 && poso[0] != 1) {
             poso[0] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("a2")) {
-          if (posx[1] != 1) {
+          if (posx[1] != 1 && poso[1] != 1) {
             poso[1] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("a3")) {
-          if (posx[2] != 1) {
+          if (posx[2] != 1 && poso[2] != 1) {
             poso[2] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b1")) {
-          if (posx[3] != 1) {
+          if (posx[3] != 1 && poso[3] != 1) {
             poso[3] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b2")) {
-          if (posx[4] != 1) {
+          if (posx[4] != 1 && poso[4] != 1) {
             poso[4] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("b3")) {
-          if (posx[5] != 1) {
+          if (posx[5] != 1 && poso[5] != 1) {
             poso[5] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c1")) {
-          if (posx[6] != 1) {
+          if (posx[6] != 1 && poso[6] != 1) {
             poso[6] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c2")) {
-          if (posx[7] != 1) {
+          if (posx[7] != 1 && poso[7] != 1) {
             poso[7] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         } else if (pos.equals("c3")) {
-          if (posx[8] != 1) {
+          if (posx[8] != 1 && poso[8] != 1) {
             poso[8] = 1;
           } else {
             System.out.println("Spot taken!");
+            return;
           }
         }
       }
@@ -353,7 +371,9 @@ class Game
       } else {
         who = true;
       }
+      checkWin();
     }
+
     public void showBoard() {
       if (poso[0] == 1) {
         System.out.print("O ");
@@ -419,6 +439,17 @@ class Game
         System.out.print("X ");
       } else {
         System.out.print("- ");
+      }
+      System.out.println();
+    }
+
+    public void checkWin() {
+      if ((posx[0] == 1 && posx[1] == 1 && posx[2] == 1) || (posx[3] == 1 && posx[4] == 1 && posx[5] == 1) || (posx[6] == 1 && posx[7] == 1 && posx[8] == 1) || (posx[0] == 1 && posx[4] == 1 && posx[8] == 1) || (posx[2] == 1 && posx[4] == 1 && posx[6] == 1)) {
+        System.out.println("\nX Wins!");
+        finished = true;
+      } else if ((poso[0] == 1 && poso[1] == 1 && poso[2] == 1) || (poso[3] == 1 && poso[4] == 1 && poso[5] == 1) || (poso[6] == 1 && poso[7] == 1 && poso[8] == 1) || (poso[0] == 1 && poso[4] == 1 && poso[8] == 1) || (poso[2] == 1 && poso[4] == 1 && poso[6] == 1)) {
+        System.out.println("\nO Wins!");
+        finished = true;
       }
     }
     /**
