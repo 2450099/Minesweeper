@@ -38,7 +38,7 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "check turn answer back drop exits go help inventory items map observe pick quit talk ritual";
+    private final String INITIAL_COMMANDS = "flag check turn answer back drop exits go help inventory items map observe pick quit talk ritual";
     private int[][] field = new int[5][5];
     private int[][] key = new int[5][5];
     private int[] posx = new int[9];
@@ -236,6 +236,8 @@ class Game
           turn(command);
         } else if (commandWord.equals("check")) {
           check(command);
+        } else if (commandWord.equals("flag")) {
+          setFlag(command);
         } else {
           System.out.println("Command not implemented yet.");
         }
@@ -268,11 +270,15 @@ class Game
         }
         if (key[y-1][x-1] == -1) {
           field[y-1][x-1] = -1;
+          showField();
+          System.out.println("Oh no!  You landed on a mine!");
+          finished = true;
+          return;
         } else {
           field[y-1][x-1] = checkAround(y-1, x-1);
         }
-        System.out.println((x-1) + "" + (y-1) + "" + field[y-1][x-1] + "" + key[y-1][x-1]);
         showField();
+        checkMineWin();
       }
 
       public void showField() {
@@ -283,7 +289,7 @@ class Game
             } else if (field[i][j] == -1) {
               System.out.print("b ");
             } else if (field[i][j] == -2) {
-              System.out.print("f ");
+              System.out.print("F ");
             } else {
               System.out.print(field[i][j] + " ");
             }
@@ -349,6 +355,51 @@ class Game
       System.out.println(c);
       return c;
     }
+
+    public void setFlag(Command command) {
+        int y;
+        int x;
+        if (!command.hasSecondWord()) {
+          System.out.println("Flag where?\nUse flag [vertical pos] [horizontal pos]");
+          return;
+        } else if (!command.hasThirdWord()) {
+          System.out.println("Flag where?\nUse flag [vertical position] [horizontal position]");
+          return;
+        }
+        if (!command.getSecondWord().matches(".*[a-z].*") && !command.getThirdWord().matches(".*[a-z].*")) { 
+          y = Integer.parseInt(command.getSecondWord());
+          x = Integer.parseInt(command.getThirdWord());
+        } else {
+          System.out.println("Those are not numbers!");
+          return;
+        }
+        if (y > 5 || x > 5 || x < 1 || y < 1) {
+          System.out.println("That's out of bounds!");
+          return;
+        } else if (field[y-1][x-1] == -3) {
+          field[y-1][x-1] = -2;
+        } else if (field[y-1][x-1] == -2) {
+          field[y-1][x-1] = -3;
+        } else {
+          System.out.println("You can't go there!");
+        }
+        showField();
+      }
+
+      public void checkMineWin() {
+        boolean fin = true;
+        for (int i = 0; i < field.length; i++) {
+          for (int j = 0; j < field[0].length; j++) {
+            if (field[i][j] == -3 && key[i][j] != -1) {
+              fin = false;
+            }
+          }
+        }
+        if (fin == true) {
+          System.out.println("Congrats!  You won!");
+          finished = true;
+        }
+      }
 
 
 
