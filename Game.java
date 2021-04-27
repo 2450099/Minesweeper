@@ -38,7 +38,9 @@
 class Game 
 {
     // These are the commands that are available.
-    private final String INITIAL_COMMANDS = "turn answer back drop exits go help inventory items map observe pick quit talk ritual";
+    private final String INITIAL_COMMANDS = "check turn answer back drop exits go help inventory items map observe pick quit talk ritual";
+    private int[][] field = new int[5][5];
+    private int[][] key = new int[5][5];
     private int[] posx = new int[9];
     private int[] poso = new int[9];
     private boolean who = false;
@@ -159,6 +161,15 @@ class Game
     public void play() 
     {            
         printWelcome();
+        for (int i = 0; i < field.length; i++) {
+          for (int j = 0; j < field[i].length; j++) {
+            field[i][j] = 0;
+          }
+        }
+        for (int i = 0; i < 5; i++) {
+          setMine();
+        }
+        showKey();
         who = false;
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
@@ -223,11 +234,71 @@ class Game
           ritual();
         } else if (commandWord.equals("turn")) {
           turn(command);
+        } else if (commandWord.equals("check")) {
+          check(command);
         } else {
           System.out.println("Command not implemented yet.");
         }
 
     }
+
+      public void check(Command command) {
+        if (!command.hasSecondWord()) {
+          System.out.println("Check where?");
+          return;
+        }
+        showField();
+      }
+
+      public void showField() {
+        for (int i = 0; i < field.length; i++) {
+          for (int j = 0; j < field[i].length; j++) {
+            if (field[i][j] == 0) {
+              System.out.print("- ");
+            } else if (field[i][j] == 1) {
+              System.out.print("b ");
+            } else {
+              System.out.print("f ");
+            }
+          }
+          System.out.println();
+        }
+      }
+      public void showKey() {
+        for (int i = 0; i < key.length; i++) {
+          for (int j = 0; j < key[i].length; j++) {
+            if (key[i][j] == 0) {
+              System.out.print("- ");
+            } else if (key[i][j] == 1) {
+              System.out.print("b ");
+            } else {
+              System.out.print("f ");
+            }
+          }
+          System.out.println();
+        }
+      }
+
+      public void setMine() {
+        int a = (int) (Math.random()*25);
+        if (key[(a/5)][(a%5)] != 1) {
+          key[(a/5)][(a%5)] = 1;
+        } else {
+          setMine();
+        }
+      }
+/**
+*0  1  2  3  4
+*5  6  7  8  9
+*10 11 12 13 14
+*15 16 17 18 19
+*20 21 22 23 24
+*/
+
+
+
+
+
     public void turn(Command command) {
       if (!command.hasSecondWord()) {
         System.out.println("Where?");

@@ -77,6 +77,7 @@ class Parser
     {
         String word1;
         String word2;
+        String word3;
 
         System.out.print("> ");     // print prompt
 
@@ -95,16 +96,19 @@ class Parser
             word2 = tokenizer.next();      // get second word
         else
             word2 = null;
-
+        if(tokenizer.hasNext())
+          word3 = tokenizer.next();  // get third word (hopefully)
+        else 
+          word3 = null;
         // note: we just ignore the rest of the input line.
 
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
 
         if(this.isCommand(word1))
-            return new Command(word1, word2);
+            return new Command(word1, word2, word3);
         else
-            return new Command(null, word2);
+            return new Command(null, word2, word3);
     }
 
 }
