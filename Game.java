@@ -39,8 +39,8 @@ class Game
 {
     // These are the commands that are available.
     private final String INITIAL_COMMANDS = "flag check turn answer back drop exits go help inventory items map observe pick quit talk ritual";
-    private int[][] field = new int[5][5];
-    private int[][] key = new int[5][5];
+    private int[][] field = new int[7][9];
+    private int[][] key = new int[7][9];
     private int[] posx = new int[9];
     private int[] poso = new int[9];
     private boolean who = false;
@@ -261,7 +261,7 @@ class Game
           System.out.println("Those are not numbers!");
           return;
         }
-        if (y > 5 || x > 5 || x < 1 || y < 1) {
+        if (y > field.length || x > field[0].length || x < 1 || y < 1) {
           System.out.println("That's out of bounds!");
           return;
         } else if (field[y-1][x-1] != -3) {
@@ -311,9 +311,9 @@ class Game
       }
 
       public void setMine() {
-        int a = (int) (Math.random()*25);
-        if (key[(a/5)][(a%5)] != -1) {
-          key[(a/5)][(a%5)] = -1;
+        int a = (int) (Math.random()*(field.length*field[0].length));
+        if (key[(a/field[0].length)][(a%field.length)] != -1) {
+          key[(a/field[0].length)][(a%field.length)] = -1;
         } else {
           setMine();
         }
@@ -331,25 +331,25 @@ class Game
       if (x != 0 && key[y][x-1] == -1) {
         c++;
       }
-      if (x != 4 && key[y][x+1] == -1) {
+      if (x != field[0].length-1 && key[y][x+1] == -1) {
         c++;
       } 
       if (y != 0 && key[y-1][x] == -1) {
         c++;
       }
-      if (y != 4 && key[y+1][x] == -1) {
+      if (y != field.length-1 && key[y+1][x] == -1) {
         c++;
       }
       if (y != 0 && x != 0 && key[y-1][x-1] == -1) {
         c++;
       }
-      if (y != 4 && x != 4 && key[y+1][x+1] == -1) {
+      if (y != field.length-1 && x != field[0].length-1 && key[y+1][x+1] == -1) {
         c++;
       }
-      if (y != 0 && x != 4 && key[y-1][x+1] == -1) {
+      if (y != 0 && x != field[0].length-1 && key[y-1][x+1] == -1) {
         c++;
       }
-      if (y != 4 && x != 0 && key[y+1][x-1] == -1) {
+      if (y != field.length-1 && x != 0 && key[y+1][x-1] == -1) {
         c++;
       }
       System.out.println(c);
