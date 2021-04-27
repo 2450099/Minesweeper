@@ -166,7 +166,7 @@ class Game
             field[i][j] = -3;
           }
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
           setMine();
         }
         showKey();
@@ -373,7 +373,7 @@ class Game
           System.out.println("Those are not numbers!");
           return;
         }
-        if (y > 5 || x > 5 || x < 1 || y < 1) {
+        if (y > field.length || x > field[0].length || x < 1 || y < 1) {
           System.out.println("That's out of bounds!");
           return;
         } else if (field[y-1][x-1] == -3) {
