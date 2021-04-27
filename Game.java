@@ -163,7 +163,7 @@ class Game
         printWelcome();
         for (int i = 0; i < field.length; i++) {
           for (int j = 0; j < field[i].length; j++) {
-            field[i][j] = 0;
+            field[i][j] = -3;
           }
         }
         for (int i = 0; i < 5; i++) {
@@ -243,22 +243,49 @@ class Game
     }
 
       public void check(Command command) {
+        int y;
+        int x;
         if (!command.hasSecondWord()) {
-          System.out.println("Check where?");
+          System.out.println("Check where?\nUse check [vertical pos] [horizontal pos]");
+          return;
+        } else if (!command.hasThirdWord()) {
+          System.out.println("Check where?\nUse check [vertical position] [horizontal position]");
           return;
         }
+        if (!command.getSecondWord().matches(".*[a-z].*") && !command.getThirdWord().matches(".*[a-z].*")) { 
+          y = Integer.parseInt(command.getSecondWord());
+          x = Integer.parseInt(command.getThirdWord());
+        } else {
+          System.out.println("Those are not numbers!");
+          return;
+        }
+        if (y > 5 || x > 5 || x < 1 || y < 1) {
+          System.out.println("That's out of bounds!");
+          return;
+        } else if (field[y-1][x-1] != -3) {
+          System.out.println("Can't go there!");
+          return;
+        }
+        if (key[y-1][x-1] == -1) {
+          field[y-1][x-1] = -1;
+        } else {
+          field[y-1][x-1] = checkAround(y-1, x-1);
+        }
+        System.out.println((x-1) + "" + (y-1) + "" + field[y-1][x-1] + "" + key[y-1][x-1]);
         showField();
       }
 
       public void showField() {
         for (int i = 0; i < field.length; i++) {
           for (int j = 0; j < field[i].length; j++) {
-            if (field[i][j] == 0) {
+            if (field[i][j] == -3) {
               System.out.print("- ");
-            } else if (field[i][j] == 1) {
+            } else if (field[i][j] == -1) {
               System.out.print("b ");
-            } else {
+            } else if (field[i][j] == -2) {
               System.out.print("f ");
+            } else {
+              System.out.print(field[i][j] + " ");
             }
           }
           System.out.println();
@@ -269,10 +296,8 @@ class Game
           for (int j = 0; j < key[i].length; j++) {
             if (key[i][j] == 0) {
               System.out.print("- ");
-            } else if (key[i][j] == 1) {
+            } else if (key[i][j] == -1) {
               System.out.print("b ");
-            } else {
-              System.out.print("f ");
             }
           }
           System.out.println();
@@ -281,8 +306,8 @@ class Game
 
       public void setMine() {
         int a = (int) (Math.random()*25);
-        if (key[(a/5)][(a%5)] != 1) {
-          key[(a/5)][(a%5)] = 1;
+        if (key[(a/5)][(a%5)] != -1) {
+          key[(a/5)][(a%5)] = -1;
         } else {
           setMine();
         }
@@ -295,7 +320,35 @@ class Game
 *20 21 22 23 24
 */
 
-
+    public int checkAround(int y, int x) {
+      int c = 0;
+      if (x != 0 && key[y][x-1] == -1) {
+        c++;
+      }
+      if (x != 4 && key[y][x+1] == -1) {
+        c++;
+      } 
+      if (y != 0 && key[y-1][x] == -1) {
+        c++;
+      }
+      if (y != 4 && key[y+1][x] == -1) {
+        c++;
+      }
+      if (y != 0 && x != 0 && key[y-1][x-1] == -1) {
+        c++;
+      }
+      if (y != 4 && x != 4 && key[y+1][x+1] == -1) {
+        c++;
+      }
+      if (y != 0 && x != 4 && key[y-1][x+1] == -1) {
+        c++;
+      }
+      if (y != 4 && x != 0 && key[y+1][x-1] == -1) {
+        c++;
+      }
+      System.out.println(c);
+      return c;
+    }
 
 
 
