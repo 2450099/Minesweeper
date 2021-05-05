@@ -39,8 +39,9 @@ class Game
 {
     // These are the commands that are available.
     private final String INITIAL_COMMANDS = "flag check turn answer back drop exits go help inventory items map observe pick quit talk ritual";
-    private int[][] field = new int[7][9];
-    private int[][] key = new int[7][9];
+    private int[][] field = new int[14][18];
+    private int[][] key = new int[14][18];
+    int numMines = 40;
     private int[] posx = new int[9];
     private int[] poso = new int[9];
     private boolean who = false;
@@ -166,7 +167,7 @@ class Game
             field[i][j] = -3;
           }
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numMines; i++) {
           setMine();
         }
         showKey();
