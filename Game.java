@@ -281,6 +281,27 @@ class Game
         checkMineWin();
       }
 
+      public void check(int y, int x) {
+        if (y > field.length || x > field[0].length || x < 1 || y < 1) {
+          System.out.println("That's out of bounds!");
+          return;
+        } else if (field[y-1][x-1] != -3) {
+          System.out.println("Can't go there!");
+          return;
+        }
+        if (key[y-1][x-1] == -1) {
+          field[y-1][x-1] = -1;
+          showField();
+          System.out.println("Oh no!  You landed on a mine!");
+          finished = true;
+          return;
+        } else {
+          field[y-1][x-1] = checkAroundB(y-1, x-1);///////
+        }
+        showField();
+        checkMineWin();
+      }
+
       public void showField() {
         for (int i = 0; i < field.length; i++) {
           for (int j = 0; j < field[i].length; j++) {
@@ -327,6 +348,53 @@ class Game
 */
 
     public int checkAround(int y, int x) {
+      int c = 0;
+      if (x != 0 && key[y][x-1] == -1) {
+        c++;
+      }
+      if (x != field[0].length-1 && key[y][x+1] == -1) {
+        c++;
+      } 
+      if (y != 0 && key[y-1][x] == -1) {
+        c++;
+      }
+      if (y != field.length-1 && key[y+1][x] == -1) {
+        c++;
+      }
+      if (y != 0 && x != 0 && key[y-1][x-1] == -1) {
+        c++;
+      }
+      if (y != field.length-1 && x != field[0].length-1 && key[y+1][x+1] == -1) {
+        c++;
+      }
+      if (y != 0 && x != field[0].length-1 && key[y-1][x+1] == -1) {
+        c++;
+      }
+      if (y != field.length-1 && x != 0 && key[y+1][x-1] == -1) {
+        c++;
+      }
+      if (c == 0) {
+        if (x != 0 && y != 0 && field[y-1][x-1] == -3)
+          check(y, x);   //TL -2
+        if (x != 0 && field[y][x-1] == -3)
+          check(y+1, x); //ML -1
+        if (y != 0 && field[y-1][x] == -3)
+          check(y, x+1); //TM -1
+        if (x != 0 && y < field.length-1 && field[y+1][x-1] == -3)
+          check(y+2, x); //BL -2
+        if (y != 0 && x < field[0].length-1 && field[y-1][x+1] == -3)
+          check(y, x+2); //TR - 2
+        if (x < field[0].length-1 && field[y][x+1] == -3)
+          check(y+1, x+2);//MR -1
+        if (x < field[0].length-1 && y < field.length-1 && field[y+1][x+1] == -3)
+          check(y+2, x+2);//BR -2
+        if (y < field.length-1 && field[y+1][x] == -3)
+          check(y+2, x+1);//BM -1
+      }
+      System.out.println(c);
+      return c;
+    }
+    public int checkAroundB(int y, int x) {
       int c = 0;
       if (x != 0 && key[y][x-1] == -1) {
         c++;
